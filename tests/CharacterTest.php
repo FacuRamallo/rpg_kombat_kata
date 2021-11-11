@@ -34,6 +34,7 @@ class CharacterTest extends TestCase
 
         $attaker = new Character();
         $damaged = new Character();
+        $damaged ->setCharId(2);
 
         $attaker->hit(100, $damaged);
 
@@ -43,6 +44,7 @@ class CharacterTest extends TestCase
     public function test_damage_exceeds_Health_it_becomes_0_and_character_dies() {
         $damaged = new Character();
         $attaker = new Character();
+        $damaged ->setCharId(2);
         $attaker->hit(1100,$damaged);
         $this -> assertEquals(0, $damaged->getHealth());
         $this -> assertFalse($damaged->isAlive());
@@ -68,4 +70,48 @@ class CharacterTest extends TestCase
         $this -> assertLessThanOrEqual(1000,$damagedChar->getHealth());
     }
 
+    public function test_A_Character_cannot_Deal_Damage_to_itself(){
+        
+        $attakerChar = new Character();
+        
+        
+        $attakerChar ->hit(100, $attakerChar);
+
+        $this -> assertEquals(1000, $attakerChar->getHealth());
+
+    }
+
+    public function test_A_Character_can_only_Heal_itself(){
+        $healerChar = new Character();
+        $healerChar->setHealth(500);
+
+        $healerChar->heal(100);
+
+        $this-> assertEquals(600,$healerChar->getHealth());
+    }
+
+    public function test_If_the_target_is_5_or_more_Levels_above_the_attacker_Damage_is_reduced_by_50percent(){
+        $targetChar = new Character();
+        $attakerChar = new Character();
+        $targetChar ->setCharId(2);
+        $targetChar ->setLevel(10);
+
+        $attakerChar ->hit(100,$targetChar);
+
+        $this->assertEquals(950,$targetChar->getHealth());
+
+    }
+    public function test_If_the_target_is_5_or_more_Levels_below_the_attacker_Damage_is_increased_by_50percent(){
+        $targetChar = new Character();
+        $attakerChar = new Character();
+        $targetChar ->setCharId(2);
+        $attakerChar ->setLevel(10);
+
+        $attakerChar ->hit(100,$targetChar);
+
+        $this->assertEquals(850,$targetChar->getHealth());
+
+    }
+
+    
 }
