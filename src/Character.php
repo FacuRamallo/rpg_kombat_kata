@@ -2,34 +2,39 @@
 
 namespace App;
 
-use PharIo\Version\AndVersionConstraintGroup;
+
 
 class Character
 {
-    private int $charId = 1;
-    private int $health = 1000;
-    private int $level = 1;
-    private bool $alive = true;
-    
-    public function hit(int $hitPoints, Character $victim) {
-        if($this->charId !== $victim->charId){
-            $victimLifePoints = $victim->getHealth(); 
-            $hitPoints= $this->compareLevels($hitPoints,$victim);
-            $victimLifePoints -= $hitPoints; 
-            $victim-> setHealth($victimLifePoints);
-            $victim->checkHealNotUnderZero(); 
+    protected int $charId=0;
+    protected int $health = 1000;
+    protected int $level = 1;
+    protected bool $alive = true;
+    protected int $maxRange=0;
+
+      
+    public function hit(int $hitPoints, Character $target,$distanceToTarget) {
+        if(($this->charId !== $target->charId)&&($this->isTargetInRange($distanceToTarget))){
+            $targetLifePoints = $target->getHealth(); 
+            $hitPoints= $this->compareLevels($hitPoints,$target);
+            $targetLifePoints -= $hitPoints; 
+            $target-> setHealth($targetLifePoints);
+            $target->checkHealNotUnderZero(); 
         }
     }
     
-    public function setCharId(int $id) {
-        $this->charId = $id;
-    }
     
-
     public function setHealth(int $lifePoints) {
         $this->health = $lifePoints;
     }
+    public function setCharId() {
+        $this->charId = rand();
+    }
+
     
+    public function setLevel(int $level) {
+        $this->level = $level;
+    }
     public function getHealth()
     {
        return $this->health;
@@ -39,12 +44,11 @@ class Character
    {
        return $this->level;
     }
-    
-    public function setLevel(int $level) {
-        $this->level = $level;
+
+    public function getmaxRange(){
+        return $this -> maxRange;
     }
     
-
     public function die() {
         $this->health = 0;
         $this->alive = false;
@@ -90,4 +94,13 @@ class Character
         }
         return $hitPoints;
     }
+
+    public function isTargetInRange(int $distanceToTarget){
+        $attackerRange = $this-> getmaxRange();
+        if ($distanceToTarget>$attackerRange){
+            return false;
+        }
+        return true;
+    }
+
 }

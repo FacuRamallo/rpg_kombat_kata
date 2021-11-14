@@ -4,6 +4,8 @@ namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 use App\Character;
+use App\MeleChar;
+use App\RangedChar;
 
 class CharacterTest extends TestCase
 {
@@ -34,7 +36,7 @@ class CharacterTest extends TestCase
 
         $attaker = new Character();
         $damaged = new Character();
-        $damaged ->setCharId(2);
+        $damaged ->setCharId();
 
         $attaker->hit(100, $damaged);
 
@@ -113,5 +115,25 @@ class CharacterTest extends TestCase
 
     }
 
+    public function test_Characters_have_an_attack_Max_Range(){
+        $character = new Character;
+
+        $characterMaxRange = $character -> getmaxRange();
+
+        $this -> assertEquals(0,$characterMaxRange);
+    }
+
+    public function test_Characters_must_be_in_range_to_deal_damage_to_a_target(){
+        $attakerChar = new RangedChar;
+        $targetChar = new MeleChar;
+        
+        $distanceToTarget = 18;
+        $attakerChar->hit(100,$targetChar,$distanceToTarget);
+
+        $this->assertEquals(900,$targetChar->getHealth());
+
+    }
+
+   
     
 }
