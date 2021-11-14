@@ -134,6 +134,16 @@ class CharacterTest extends TestCase
 
     }
 
+    public function test_Characters_may_belong_to_one_or_more_Factions(){
+        $Character1 = new MeleChar;
+        $Character2 = new RangedChar;
+
+        $gameFactions=['factionX','factionY','factionZ'];
+
+        $this-> assertEquals('factionX', $Character1->getfactions());
+
+    }
+
    
     
 }

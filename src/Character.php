@@ -11,6 +11,7 @@ class Character
     protected int $level = 1;
     protected bool $alive = true;
     protected int $maxRange=0;
+    protected array $factions=array(0,0,0);
 
       
     public function hit(int $hitPoints, Character $target,$distanceToTarget) {
@@ -35,6 +36,12 @@ class Character
     public function setLevel(int $level) {
         $this->level = $level;
     }
+
+    public function addToFaction($faction,$gameFactions){
+        
+        $factionToAdd = array();
+        array_push($factionToAdd,);
+    }
     public function getHealth()
     {
        return $this->health;
@@ -47,6 +54,10 @@ class Character
 
     public function getmaxRange(){
         return $this -> maxRange;
+    }
+
+    public function getFactions(){
+        return $this->factions;
     }
     
     public function die() {
@@ -102,5 +113,7 @@ class Character
         }
         return true;
     }
+
+    
 
 }
