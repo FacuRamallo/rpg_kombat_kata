@@ -11,7 +11,7 @@ class Character
     protected int $level = 1;
     protected bool $alive = true;
     protected int $maxRange=0;
-    protected array $factions=array(0,0,0);
+    protected array $factions=array(0=>0,1=>0,2=>0,3=>0);
 
       
     public function hit(int $hitPoints, Character $target,$distanceToTarget) {
@@ -37,10 +37,10 @@ class Character
         $this->level = $level;
     }
 
-    public function addToFaction($faction,$gameFactions){
+    public function joinFaction($faction,$gameFactions){
+        $factionIndex = array_search($faction,$gameFactions);
+        $this-> factions[$factionIndex] = 1;
         
-        $factionToAdd = array();
-        array_push($factionToAdd,);
     }
     public function getHealth()
     {

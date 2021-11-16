@@ -38,7 +38,7 @@ class CharacterTest extends TestCase
         $damaged = new Character();
         $damaged ->setCharId();
 
-        $attaker->hit(100, $damaged);
+        $attaker->hit(100, $damaged,0);
 
         $this-> assertEquals(900, $damaged->getHealth());
     }
@@ -47,7 +47,7 @@ class CharacterTest extends TestCase
         $damaged = new Character();
         $attaker = new Character();
         $damaged ->setCharId(2);
-        $attaker->hit(1100,$damaged);
+        $attaker->hit(1100,$damaged,0);
         $this -> assertEquals(0, $damaged->getHealth());
         $this -> assertFalse($damaged->isAlive());
     }
@@ -77,7 +77,7 @@ class CharacterTest extends TestCase
         $attakerChar = new Character();
         
         
-        $attakerChar ->hit(100, $attakerChar);
+        $attakerChar ->hit(100, $attakerChar,0);
 
         $this -> assertEquals(1000, $attakerChar->getHealth());
 
@@ -98,7 +98,7 @@ class CharacterTest extends TestCase
         $targetChar ->setCharId(2);
         $targetChar ->setLevel(10);
 
-        $attakerChar ->hit(100,$targetChar);
+        $attakerChar ->hit(100,$targetChar,0);
 
         $this->assertEquals(950,$targetChar->getHealth());
 
@@ -109,7 +109,7 @@ class CharacterTest extends TestCase
         $targetChar ->setCharId(2);
         $attakerChar ->setLevel(10);
 
-        $attakerChar ->hit(100,$targetChar);
+        $attakerChar ->hit(100,$targetChar,0);
 
         $this->assertEquals(850,$targetChar->getHealth());
 
@@ -138,9 +138,22 @@ class CharacterTest extends TestCase
         $Character1 = new MeleChar;
         $Character2 = new RangedChar;
 
-        $gameFactions=['factionX','factionY','factionZ'];
+        $gameFactions=array(
+            0 => 'faction_a',
+            1 => 'faction_b',
+            2 => 'faction_c',
+            3 => 'faction_d'
+        );
 
-        $this-> assertEquals('factionX', $Character1->getfactions());
+        $Character1 -> joinFaction('faction_c',$gameFactions);
+        $Character2 -> joinFaction('faction_b',$gameFactions);
+
+        $Character1_factions = $Character1->getFactions();
+        $Character2_factions = $Character2->getFactions();
+        
+        $this-> assertEquals(1, $Character1_factions[2]);
+        $this-> assertEquals(1, $Character2_factions[1]);
+        
 
     }
 
